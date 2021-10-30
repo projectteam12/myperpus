@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.lp3i.myapplication.R;
+import com.lp3i.myapplication.util.SharedPreferenceUtil;
 
 public class MainFragment extends Fragment {
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    SharedPreferenceUtil sharedPreferenceUtil;
 
     public MainFragment() {
         // Required empty public constructor
@@ -27,6 +29,16 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        sharedPreferenceUtil = new SharedPreferenceUtil(requireContext());
+
+        if (sharedPreferenceUtil.isLogged()){
+            fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, new HomeFragment());
+//            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
 
         Button btnSignIn = view.findViewById(R.id.btnSignIn);
         btnSignIn.setOnClickListener(new View.OnClickListener() {

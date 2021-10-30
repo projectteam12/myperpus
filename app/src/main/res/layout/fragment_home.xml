@@ -92,7 +92,7 @@
             android:textColor="#5877FF"
             android:gravity="center"
             android:textStyle="bold"
-            android:text="Pengaturan"
+            android:text="Logout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
