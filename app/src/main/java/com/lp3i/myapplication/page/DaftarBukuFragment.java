@@ -3,19 +3,24 @@ package com.lp3i.myapplication.page;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.lp3i.myapplication.MainActivity;
 import com.lp3i.myapplication.R;
 import com.lp3i.myapplication.adapter.ListBukuAdapter;
 import com.lp3i.myapplication.model.Buku;
+import com.lp3i.myapplication.model.Transaction;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -36,6 +41,27 @@ public class DaftarBukuFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_daftar_buku, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        CardView cardView = view.findViewById(R.id.cardview);
+        TextView tvHariPinjam = view.findViewById(R.id.tvHariPinjam);
+
+        MainActivity main = (MainActivity)requireActivity();
+
+        Bundle bundle = main.getBundleActivity();
+        if (bundle != null){
+            Transaction transaction = (Transaction) bundle.getSerializable("data_transaction");
+            if (transaction == null){
+                cardView.setVisibility(View.GONE);
+            }else {
+                cardView.setVisibility(View.VISIBLE);
+
+                tvHariPinjam.setText( transaction.getBukus().size() +" Buku dipilih" );
+
+            }
+
+        } else {
+            cardView.setVisibility(View.GONE);
+        }
+
 
         ArrayList<Buku> listBuku = new ArrayList<>();
         Buku buku = new Buku(1, "Android Dasar", "2021", "Joko Anwar", "ini buku android", "IT", 10, "https://dummyimage.com/100x100/"+randomColor()+"/fff.png&text=");
@@ -74,8 +100,10 @@ public class DaftarBukuFragment extends Fragment {
 
     private void gotoDetailBuku(Buku buku){
 
-        Bundle bundle = new Bundle();
-        bundle.putString("judul", buku.getNamaBuku());
+        MainActivity main = (MainActivity)requireActivity();
+
+        Bundle bundle = main.getBundleActivity();
+        bundle.putSerializable("data_buku", buku);
 
         Fragment fragment = new DetailBukuFragment();
         fragment.setArguments(bundle);

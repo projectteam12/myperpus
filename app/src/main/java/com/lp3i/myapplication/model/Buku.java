@@ -1,6 +1,8 @@
 package com.lp3i.myapplication.model;
 
-public class Buku {
+import java.io.Serializable;
+
+public class Buku implements Serializable {
 
     private int id = 0;
     private String namaBuku = "";
