@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 
 import com.lp3i.myapplication.page.MainFragment;
+import com.lp3i.myapplication.viewmodel.MyViewModel;
 
 public class MainActivity extends AppCompatActivity {
 

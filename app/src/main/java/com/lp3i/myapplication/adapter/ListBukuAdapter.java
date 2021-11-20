@@ -46,7 +46,7 @@ public class ListBukuAdapter extends RecyclerView.Adapter<ListBukuAdapter.MyView
         holder.tvNamaBuku.setText( bukuList.get(position).getNamaBuku() );
         holder.tvTahunTerbit.setText( bukuList.get(position).getTahunTerbit() );
 
-        Picasso.get().load(bukuList.get(position).getUrlBuku() ).into(holder.ivBuku);
+//        Picasso.get().load(bukuList.get(position).getUrlBuku() ).into(holder.ivBuku);
 
         holder.parentItem.setOnClickListener(new View.OnClickListener() {
             @Override

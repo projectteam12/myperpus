@@ -8,6 +8,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.lp3i.myapplication.R;
 import com.lp3i.myapplication.util.SharedPreferenceUtil;
+import com.lp3i.myapplication.viewmodel.MyViewModel;
 
 public class HomeFragment extends Fragment {
 
@@ -31,6 +33,9 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        MyViewModel myViewModel = new ViewModelProvider( requireActivity() ).get(MyViewModel.class);
+        myViewModel.setTes("tessss");
 
         sharedPreferenceUtil = new SharedPreferenceUtil(requireContext());
 
