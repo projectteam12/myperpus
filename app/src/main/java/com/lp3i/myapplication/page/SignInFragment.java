@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,25 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.lp3i.myapplication.R;
+import com.lp3i.myapplication.model.ApiResponse;
+import com.lp3i.myapplication.retrofit.APIClient;
+import com.lp3i.myapplication.retrofit.APIInterface;
 import com.lp3i.myapplication.util.SharedPreferenceUtil;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignInFragment extends Fragment {
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     SharedPreferenceUtil sharedPreferenceUtil;
+
+    /**
+     * API
+     */
+    private APIInterface apiInterface;
 
     public SignInFragment() {
         // Required empty public constructor
@@ -33,6 +46,11 @@ public class SignInFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
+
+        /**
+         * API
+         */
+        apiInterface = APIClient.getClient().create(APIInterface.class);
 
         sharedPreferenceUtil = new SharedPreferenceUtil(requireContext());
 
@@ -52,11 +70,14 @@ public class SignInFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if ( isValidate(email, password) ){
-                    sharedPreferenceUtil.saveLogin();
-                    gotoHome();
+
+                    postLogin(email.getText().toString(), password.getText().toString());
+
                 }
             }
         });
+
+
 
         return view;
     }
@@ -86,22 +107,40 @@ public class SignInFragment extends Fragment {
     }
 
     private boolean isValidate(EditText email, EditText password){
-        boolean isValid = false;
+        boolean isValid = true;
 
         if (email.getText().toString().equals("")){
             showAlert("email harus diisi.");
         } else if (password.getText().toString().equals("")){
             showAlert("password harus diisi.");
-        } else if (email.getText().toString().equals("admin") &&
-                password.getText().toString().equals("admin")
-        ){
-            return true;
-        } else {
-            showAlert("Kombinasi email dan password salah.");
         }
+//        else if (email.getText().toString().equals("admin") &&
+//                password.getText().toString().equals("admin")
+//        ){
+//            return true;
+//        } else {
+//            showAlert("Kombinasi email dan password salah.");
+//        }
 
         return isValid;
     }
 
+    private void postLogin(String email, String password){
+        apiInterface.postLogin(email, password).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+
+                Log.d("DEBUGGG", "response: "+response);
+
+                sharedPreferenceUtil.saveLogin();
+                gotoHome();
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.d("DEBUGGG", "onFailure: "+t.getLocalizedMessage());
+            }
+        });
+    }
 
 }

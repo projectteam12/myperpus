@@ -1,6 +1,7 @@
 package com.lp3i.myapplication.page;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class DetailBuku2Fragment extends Fragment {
 
         myViewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
 
-        TextView tvJudul = view.findViewById(R.id.tvJudul);
+        final TextView tvJudul = view.findViewById(R.id.tvJudul);
         ImageView ivBuku = view.findViewById(R.id.ivBuku);
         Button btnTambah = view.findViewById(R.id.btnTambah);
 
@@ -55,6 +56,12 @@ public class DetailBuku2Fragment extends Fragment {
         btnTambah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Log.d("DEBUGGG", "onClick: "+myViewModel.getDetailBook().getValue().getNamaBuku());;
+                myViewModel.setSelectBooks(
+                        myViewModel.getDetailBook().getValue()
+                );
+
                 //seperti tombol back
                 requireActivity().getSupportFragmentManager().popBackStack();
             }

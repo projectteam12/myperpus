@@ -105,6 +105,24 @@ public class DaftarBuku2Fragment extends Fragment {
             }
         });
 
+        /**
+         * Observer Checkout Book
+         */
+        myViewModel.getSelectBooks().observe(requireActivity(), new Observer<ArrayList<Buku>>() {
+            @Override
+            public void onChanged(ArrayList<Buku> bukus) {
+
+                Log.d("DEBUGGG", "onChanged checkbox: "+bukus.size());
+
+                if (bukus.size() > 0){
+                    cardView.setVisibility(View.VISIBLE);
+                } else {
+                    cardView.setVisibility(View.GONE);
+                }
+                tvHariPinjam.setText( bukus.size()+" Buku dipilih" );
+            }
+        });
+
         return view;
     }
 

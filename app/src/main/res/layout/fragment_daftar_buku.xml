@@ -16,6 +16,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="100dp">

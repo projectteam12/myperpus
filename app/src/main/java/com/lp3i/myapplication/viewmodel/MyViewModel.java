@@ -13,6 +13,31 @@ import java.util.List;
 public class MyViewModel extends ViewModel {
 
     /**
+     * LiveData Select Buku
+     */
+    private MutableLiveData<ArrayList<Buku>> select_books;
+    public LiveData<ArrayList<Buku>> getSelectBooks() {
+        if (select_books == null) {
+            select_books = new MutableLiveData<ArrayList<Buku>>();
+        }
+        return select_books;
+    }
+
+    public void setSelectBooks(Buku buku) {
+        if (select_books == null) {
+            select_books = new MutableLiveData<ArrayList<Buku>>();
+        }
+
+        ArrayList<Buku> bukus = new ArrayList<>();
+        if (this.select_books.getValue() != null){
+            bukus = this.select_books.getValue();
+        }
+        bukus.add( buku );
+
+        this.select_books.setValue(bukus);
+    }
+
+    /**
      * LiveData Buku
      */
     private MutableLiveData<ArrayList<Buku>> books;
