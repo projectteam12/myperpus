@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment {
     private void gotoDaftarBuku(){
         fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container, new DaftarBukuFragment());
+        fragmentTransaction.replace(R.id.container, new DaftarBuku2Fragment());
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
