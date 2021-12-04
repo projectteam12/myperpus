@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"/>
 
             <Button
+                android:id="@+id/btnCheckout"
                 android:padding="20dp"
                 android:text="Checkout"
                 android:layout_gravity="right"

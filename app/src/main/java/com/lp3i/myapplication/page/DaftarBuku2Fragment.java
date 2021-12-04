@@ -1,5 +1,7 @@
 package com.lp3i.myapplication.page;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -46,6 +49,7 @@ public class DaftarBuku2Fragment extends Fragment {
     MyViewModel myViewModel;
     ArrayList<Buku> listBuku = new ArrayList<>();
     ListBukuAdapter adapter;
+    ProgressDialog dialog;
 
     /**
      * API
@@ -69,9 +73,22 @@ public class DaftarBuku2Fragment extends Fragment {
 
         myViewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
 
+        dialog = new ProgressDialog(requireContext());
+        dialog.setMessage("please wait..");
+
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         cardView = view.findViewById(R.id.cardview);
         tvHariPinjam = view.findViewById(R.id.tvHariPinjam);
+
+        Button btnCheckout = view.findViewById(R.id.btnCheckout);
+        btnCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoCheckout();
+            }
+        });
+
+
         Button btnRefresh = view.findViewById(R.id.btnRefresh);
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +100,17 @@ public class DaftarBuku2Fragment extends Fragment {
         adapter = new ListBukuAdapter(listBuku, new ListBukuAdapter.ListBukuListener() {
             @Override
             public void onClickItem(Buku buku) {
-                gotoDetailBuku(buku);
+
+                /**
+                 * cek stok
+                 */
+                if (buku.getStok() == 0){
+                    showAlert("stok habis");
+                } else {
+                    gotoDetailBuku(buku);
+                }
+
+
             }
         });
 
@@ -136,11 +163,22 @@ public class DaftarBuku2Fragment extends Fragment {
         fragmentTransaction.commit();
     }
 
+    private void gotoCheckout(){
+        fragmentManager = requireActivity().getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, new CheckoutFragment() );
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
     private void getBook(){
+
+        dialog.show();
         apiInterface.getBuku().enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
 
+                dialog.dismiss();
                 myViewModel.setBooks( response.body().data.data_buku );
 
                 Log.d("DEBUGGG", "listbuku: "+listBuku.size());
@@ -148,9 +186,27 @@ public class DaftarBuku2Fragment extends Fragment {
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
+
+                dialog.dismiss();
                 Log.d("DEBUGGG", "onFailure: "+t.getLocalizedMessage());
             }
         });
+    }
+
+    private void showAlert(String msg){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(requireContext());
+        builder1.setMessage(msg);
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        });
+
+        AlertDialog alert = builder1.create();
+        alert.show();
     }
 
 }

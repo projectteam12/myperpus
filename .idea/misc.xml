@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/DOSEN-A/StudioProjects/myperpus/app/src/main/res/layout/fragment_checkout.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/DOSEN-A/StudioProjects/myperpus/app/src/main/res/layout/fragment_daftar_buku.xml" value="0.22083333333333333" />
+        <entry key="..\:/Users/DOSEN-A/StudioProjects/myperpus/app/src/main/res/layout/fragment_detail_buku.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/DOSEN-A/StudioProjects/myperpus/app/src/main/res/layout/layout_list_buku.xml" value="0.22" />
       </map>
     </option>
